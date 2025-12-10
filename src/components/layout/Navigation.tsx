@@ -144,7 +144,18 @@ export function Navigation() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="fixed top-4 left-4 right-4 z-50 lg:hidden"
       >
-        <div className="glass-panel px-4 py-3">
+        <div
+          className="px-4 py-3 rounded-2xl transition-all duration-300"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            boxShadow:
+              "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+          }}
+        >
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full gradient-blue-purple flex items-center justify-center">

@@ -28,7 +28,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mohammed Shabir Alam | Senior Frontend Developer",
   description:
-    "Senior Frontend Developer with 5+ years experience creating secure, scalable web applications in fintech and telecom. Expert in React, Angular, and Node.js.",
+    "Senior Frontend Developer with 6+ years experience creating secure, scalable web applications in fintech and telecom. Expert in React, Angular, and Node.js.",
   keywords: [
     "Frontend Developer",
     "React Developer",
@@ -91,7 +91,7 @@ export default function RootLayout({
         <ParticleBackground />
         <Providers>
           <Navigation />
-          <main className="relative z-10">{children}</main>
+          <main className="relative z-10 pt-12 lg:pt-16">{children}</main>
         </Providers>
       </body>
     </html>

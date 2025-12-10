@@ -122,7 +122,7 @@ export default function SkillsPage() {
             Skills & Expertise
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-            A comprehensive toolkit built over 5+ years of professional
+            A comprehensive toolkit built over 6+ years of professional
             development in fintech and telecom industries
           </p>
         </motion.div>

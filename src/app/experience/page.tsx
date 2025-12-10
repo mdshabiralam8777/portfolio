@@ -65,6 +65,7 @@ const timelineData = [
     ],
     technologies: [
       "React",
+      "Angular",
       "TypeScript",
       "Node.js",
       "REST APIs",
@@ -123,6 +124,7 @@ const timelineData = [
     ],
     technologies: [
       "Angular",
+      "React",
       "TypeScript",
       "RxJS",
       "Microfrontends",
@@ -161,7 +163,14 @@ const timelineData = [
         impact: "Enhanced UX",
       },
     ],
-    technologies: ["Angular", "TypeScript", "AEM", "SASS", "REST APIs"],
+    technologies: [
+      "Angular",
+      "React",
+      "TypeScript",
+      "AEM",
+      "SASS",
+      "REST APIs",
+    ],
   },
 ];
 
@@ -182,7 +191,7 @@ export default function ExperiencePage() {
             Career Journey
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-            5+ years of transforming complex challenges into elegant, scalable
+            6+ years of transforming complex challenges into elegant, scalable
             solutions at leading companies
           </p>
         </motion.div>
