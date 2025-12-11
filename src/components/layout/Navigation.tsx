@@ -13,6 +13,7 @@ import {
   Sparkles,
   Mail,
   Download,
+  User,
 } from "lucide-react";
 
 const navItems = [
@@ -24,6 +25,7 @@ const navItems = [
   },
   { name: "Projects", path: "/projects", icon: <Code className="w-4 h-4" /> },
   { name: "Skills", path: "/skills", icon: <Sparkles className="w-4 h-4" /> },
+  { name: "About", path: "/about", icon: <User className="w-4 h-4" /> },
   { name: "Contact", path: "/contact", icon: <Mail className="w-4 h-4" /> },
 ];
 
@@ -130,7 +132,7 @@ export function Navigation() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Download className="w-4 h-4" />
-                Download CV
+                CV
               </motion.a>
             </div>
           </div>
@@ -231,7 +233,7 @@ export function Navigation() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Download className="w-4 h-4" />
-                    Download CV
+                    CV
                   </motion.a>
                 </div>
               </div>

@@ -18,6 +18,7 @@ import Image from "next/image";
 import { Typewriter } from "@/components/ui/Typewriter";
 import { FloatingElements } from "@/components/effects/FloatingElements";
 import { StatsCounter } from "@/components/ui/StatsCounter";
+import { Testimonials } from "@/components/ui/Testimonials";
 
 export default function Home() {
   const stats = [
@@ -359,6 +360,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
     </div>
   );
 }

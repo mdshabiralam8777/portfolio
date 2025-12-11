@@ -2,6 +2,7 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { Float, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 interface ParticleProps {
@@ -17,11 +18,8 @@ function Particle({ position, size, color, speed }: ParticleProps) {
 
   useFrame((state) => {
     if (meshRef.current) {
-      // Gentle rotation
       meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.1 * speed;
       meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.15 * speed;
-
-      // Floating animation
       meshRef.current.position.y =
         initialY +
         Math.sin(state.clock.getElapsedTime() * speed + position[0]) * 0.5;
@@ -42,9 +40,45 @@ function Particle({ position, size, color, speed }: ParticleProps) {
   );
 }
 
+// Tech icon as HTML floating in 3D space
+interface TechIconProps {
+  position: [number, number, number];
+  text: string;
+  color: string;
+}
+
+function TechIcon({ position, text, color }: TechIconProps) {
+  return (
+    <Float
+      speed={2.5}
+      rotationIntensity={0.2}
+      floatIntensity={1.5}
+      position={position}
+    >
+      <Html
+        center
+        distanceFactor={15}
+        style={{
+          color: color,
+          fontSize: "14px",
+          fontWeight: "bold",
+          fontFamily: "monospace",
+          opacity: 0.25,
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          userSelect: "none",
+          textShadow: `0 0 10px ${color}40`,
+        }}
+      >
+        {text}
+      </Html>
+    </Float>
+  );
+}
+
 function Particles() {
   const particles = useMemo(() => {
-    const count = 80;
+    const count = 60;
     const colors = ["#00D4FF", "#9D00FF", "#00FF9D", "#FF00FF"];
     const items: ParticleProps[] = [];
 
@@ -73,12 +107,47 @@ function Particles() {
   );
 }
 
+function FloatingTechIcons() {
+  const icons = useMemo(() => {
+    const techStack = [
+      { text: "React", color: "#61DAFB" },
+      { text: "Angular", color: "#DD0031" },
+      { text: "TypeScript", color: "#3178C6" },
+      { text: "Node.js", color: "#339933" },
+      { text: "Next.js", color: "#FFFFFF" },
+      { text: "JavaScript", color: "#F7DF1E" },
+      { text: "MongoDB", color: "#47A248" },
+      { text: "GraphQL", color: "#E10098" },
+      { text: "Docker", color: "#2496ED" },
+      { text: "AWS", color: "#FF9900" },
+    ];
+
+    return techStack.map((tech) => ({
+      ...tech,
+      position: [
+        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * 15,
+        (Math.random() - 0.5) * 10 - 3,
+      ] as [number, number, number],
+    }));
+  }, []);
+
+  return (
+    <>
+      {icons.map((icon, i) => (
+        <TechIcon key={i} {...icon} />
+      ))}
+    </>
+  );
+}
+
 function Scene() {
   return (
     <>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} intensity={0.5} />
       <Particles />
+      <FloatingTechIcons />
     </>
   );
 }

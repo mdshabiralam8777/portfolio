@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Navigation } from "@/components/layout/Navigation";
-import { ParticleBackground } from "@/components/effects/ParticleBackground";
+import { LazyParticleBackground } from "@/components/effects/LazyParticleBackground";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,7 +88,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-black text-white overflow-x-hidden antialiased">
-        <ParticleBackground />
+        <LazyParticleBackground />
         <Providers>
           <Navigation />
           <main className="relative z-10 pt-12 lg:pt-16">{children}</main>
