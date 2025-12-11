@@ -121,11 +121,11 @@ export default function ContactPage() {
                             {method.icon}
                           </span>
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-sm text-gray-400">
                             {method.label}
                           </p>
-                          <p className="text-white font-medium group-hover:text-[var(--cyber-blue)] transition-colors">
+                          <p className="text-sm md:text-base text-white font-medium group-hover:text-[var(--cyber-blue)] transition-colors truncate">
                             {method.value}
                           </p>
                         </div>
@@ -140,11 +140,11 @@ export default function ContactPage() {
                             {method.icon}
                           </span>
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="text-sm text-gray-400">
                             {method.label}
                           </p>
-                          <p className="text-white font-medium">
+                          <p className="text-sm md:text-base text-white font-medium truncate">
                             {method.value}
                           </p>
                         </div>
