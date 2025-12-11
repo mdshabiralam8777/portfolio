@@ -196,7 +196,7 @@ export function Navigation() {
                 WebkitBackdropFilter: "blur(20px)",
               }}
             >
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {navItems.map((item) => {
                   const isActive = pathname === item.path;
                   return (
@@ -220,18 +220,20 @@ export function Navigation() {
                   );
                 })}
 
-                <motion.a
-                  href="/Mohammed_Shabir_Alam__CV_Latest.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg gradient-blue-purple text-white font-medium"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Download className="w-4 h-4" />
-                  Download CV
-                </motion.a>
+                <div className="mt-2 border-t border-white/10">
+                  <motion.a
+                    href="/Mohammed_Shabir_Alam__CV_Latest.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg gradient-blue-purple text-white font-medium"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Download className="w-4 h-4" />
+                    Download CV
+                  </motion.a>
+                </div>
               </div>
             </motion.div>
           )}
