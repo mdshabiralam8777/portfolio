@@ -23,7 +23,7 @@ export default function Home() {
   const stats = [
     { label: "Years Experience", value: 6, suffix: "+" },
     { label: "Users Impacted", value: 5, suffix: "M+" },
-    { label: "Projects Delivered", value: 50, suffix: "+" },
+    { label: "Projects Delivered", value: 10, suffix: "+" },
     { label: "Performance Gain", value: 70, suffix: "%" },
   ];
 
