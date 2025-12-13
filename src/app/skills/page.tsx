@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { GraduationCap } from "lucide-react";
 
 const skillCategories = [
   {
@@ -182,10 +183,13 @@ export default function SkillsPage() {
             Certifications & Achievements
           </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="glass-panel p-6 text-center"
+          <div className="flex flex-wrap justify-center gap-6">
+            <motion.a
+              href="https://www.credly.com/badges/1a236f11-4b18-410d-8456-ec6723743376"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 } as const}
+              className="glass-panel p-6 text-center block cursor-pointer"
             >
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--cyber-blue)]/20 flex items-center justify-center">
                 <span className="text-2xl">🏅</span>
@@ -194,29 +198,37 @@ export default function SkillsPage() {
                 SAFe® 5 Practitioner
               </h3>
               <p className="text-sm text-gray-400">Scaled Agile, Inc.</p>
-            </motion.div>
+            </motion.a>
 
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="glass-panel p-6 text-center"
-            >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--cyber-purple)]/20 flex items-center justify-center">
-                <span className="text-2xl">⭐</span>
-              </div>
-              <h3 className="font-bold text-white mb-2">4-Star HackerRank</h3>
-              <p className="text-sm text-gray-400">Problem Solving</p>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -5 }}
-              className="glass-panel p-6 text-center"
+            <motion.a
+              href="https://www.linkedin.com/feed/update/urn:li:activity:7396193721341550592/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 } as const}
+              className="glass-panel p-6 text-center block cursor-pointer"
             >
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--cyber-green)]/20 flex items-center justify-center">
                 <span className="text-2xl">🏆</span>
               </div>
               <h3 className="font-bold text-white mb-2">On-the-Spot Award</h3>
               <p className="text-sm text-gray-400">Emirates NBD - DevInsight</p>
-            </motion.div>
+            </motion.a>
+
+            <motion.a
+              href="https://www.udemy.com/certificate/UC-8d695f0e-a858-4845-a3e7-8c3716ae20e1/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 } as const}
+              className="glass-panel p-6 text-center block cursor-pointer"
+            >
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--cyber-purple)]/20 flex items-center justify-center">
+                <GraduationCap className="w-8 h-8 text-[var(--cyber-purple)]" />
+              </div>
+              <h3 className="font-bold text-white mb-2">
+                Angular Complete Guide
+              </h3>
+              <p className="text-sm text-gray-400">Udemy - 2025 Edition</p>
+            </motion.a>
           </div>
         </motion.div>
       </div>
