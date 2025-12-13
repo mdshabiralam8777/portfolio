@@ -180,7 +180,9 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <p className="text-white font-medium">{social.label}</p>
-                      <p className="text-xs text-gray-500">{social.username}</p>
+                      <p className="text-xs text-gray-500 hidden md:block">
+                        {social.username}
+                      </p>
                     </div>
                   </a>
                 ))}
