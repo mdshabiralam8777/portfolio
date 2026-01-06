@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
   MapPin,
@@ -174,6 +174,26 @@ const timelineData = [
   },
 ];
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
 export default function ExperiencePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeEntry = timelineData[activeIndex];
@@ -181,16 +201,25 @@ export default function ExperiencePage() {
   return (
     <div className="min-h-screen py-24">
       {/* Header */}
-      <div className="container mx-auto px-4 mb-12">
+      <div className="container mx-auto px-4 mb-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text">
+          <motion.span
+            className="inline-block text-sm font-medium tracking-widest text-[var(--cyber-blue)] uppercase mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Professional Experience
+          </motion.span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text tracking-tight">
             Career Journey
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             6+ years of transforming complex challenges into elegant, scalable
             solutions at leading companies
           </p>
@@ -199,24 +228,34 @@ export default function ExperiencePage() {
 
       {/* Experience Details */}
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-10">
           {/* Timeline Navigation */}
-          <div className="lg:col-span-1 space-y-4">
+          <motion.div
+            className="lg:col-span-1 space-y-3"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
             {timelineData.map((entry, index) => (
               <motion.button
                 key={entry.id}
+                variants={itemVariants}
                 onClick={() => setActiveIndex(index)}
-                className={`w-full text-left p-5 rounded-2xl transition-all ${
+                className={`w-full text-left p-5 rounded-2xl transition-all duration-300 ${
                   index === activeIndex
-                    ? "glass-panel border-[var(--cyber-blue)]/30"
-                    : "bg-white/5 hover:bg-white/10 border border-transparent"
+                    ? "glass-panel border-[var(--cyber-blue)]/40 shadow-[0_0_20px_rgba(0,243,255,0.08)]"
+                    : "bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.04] hover:border-white/10"
                 }`}
-                whileHover={{ x: 5 }}
+                whileHover={{ x: 4, transition: { duration: 0.2 } }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden bg-white">
+                    <div
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden bg-white transition-shadow duration-300 ${
+                        index === activeIndex ? "shadow-lg" : ""
+                      }`}
+                    >
                       <Image
                         src={entry.company.logo}
                         alt={entry.company.name}
@@ -226,49 +265,56 @@ export default function ExperiencePage() {
                       />
                     </div>
                     <div>
-                      <h3 className="font-bold text-white">
+                      <h3
+                        className={`font-semibold transition-colors duration-200 ${
+                          index === activeIndex ? "text-white" : "text-gray-200"
+                        }`}
+                      >
                         {entry.company.name}
                       </h3>
-                      <p className="text-sm text-gray-400">
+                      <p
+                        className={`text-sm transition-colors duration-200 ${
+                          index === activeIndex
+                            ? "text-[var(--cyber-blue)]"
+                            : "text-gray-500"
+                        }`}
+                      >
                         {entry.role.title}
                       </p>
-                      <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1.5">
                         <Calendar className="w-3 h-3" />
-                        {entry.company.duration}
+                        <span>{entry.company.duration}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div
-                    className={`transition-all ${
-                      index === activeIndex
-                        ? "text-[var(--cyber-blue)]"
-                        : "text-gray-500"
-                    }`}
-                  >
+                  <div className="flex items-center">
                     {index === activeIndex ? (
-                      <div className="w-2 h-2 rounded-full bg-[var(--cyber-blue)] animate-pulse" />
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--cyber-blue)] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--cyber-blue)]"></span>
+                      </span>
                     ) : (
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="w-4 h-4 text-gray-600" />
                     )}
                   </div>
                 </div>
 
                 {/* Quick stats */}
                 {entry.stats && (
-                  <div className="flex items-center gap-4 mt-4">
+                  <div className="flex items-center gap-4 mt-4 pt-3 border-t border-white/[0.04]">
                     {entry.stats.usersImpacted && (
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-[var(--cyber-blue)]" />
-                        <span className="text-sm text-gray-300">
+                      <div className="flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-[var(--cyber-blue)]" />
+                        <span className="text-xs font-medium text-gray-400">
                           {entry.stats.usersImpacted}
                         </span>
                       </div>
                     )}
                     {entry.stats.performanceImprovement && (
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-[var(--cyber-purple)]" />
-                        <span className="text-sm text-gray-300">
+                      <div className="flex items-center gap-1.5">
+                        <TrendingUp className="w-3.5 h-3.5 text-[var(--cyber-purple)]" />
+                        <span className="text-xs font-medium text-gray-400">
                           {entry.stats.performanceImprovement}
                         </span>
                       </div>
@@ -277,122 +323,172 @@ export default function ExperiencePage() {
                 )}
               </motion.button>
             ))}
-          </div>
+          </motion.div>
 
           {/* Current Company Card */}
-          <motion.div
-            key={activeEntry.id}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:col-span-2 glass-panel p-6 md:p-8"
-          >
-            <div className="flex flex-col md:flex-row items-start justify-between mb-8 gap-4">
-              <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden bg-white">
-                    <Image
-                      src={activeEntry.company.logo}
-                      alt={activeEntry.company.name}
-                      width={64}
-                      height={64}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white">
-                      {activeEntry.role.title}
-                    </h2>
-                    <div className="flex flex-wrap items-center gap-4 text-gray-400 mt-2">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {activeEntry.company.duration}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {activeEntry.company.location}
-                      </span>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeEntry.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="lg:col-span-2 glass-panel p-6 md:p-8"
+            >
+              <div className="flex flex-col md:flex-row items-start justify-between mb-8 gap-6">
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <motion.div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden bg-white shadow-lg"
+                      whileHover={{ scale: 1.05, rotate: 2 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 17,
+                      }}
+                    >
+                      <Image
+                        src={activeEntry.company.logo}
+                        alt={activeEntry.company.name}
+                        width={64}
+                        height={64}
+                        className="object-contain"
+                      />
+                    </motion.div>
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                        {activeEntry.role.title}
+                      </h2>
+                      <div className="flex flex-wrap items-center gap-3 text-gray-400 mt-2 text-sm">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {activeEntry.company.duration}
+                        </span>
+                        <span className="text-gray-600">•</span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5" />
+                          {activeEntry.company.location}
+                        </span>
+                      </div>
                     </div>
                   </div>
+
+                  <p className="text-gray-400 text-sm">
+                    {activeEntry.company.name} · {activeEntry.role.type}
+                  </p>
                 </div>
 
-                <p className="text-gray-300">
-                  {activeEntry.company.name} • {activeEntry.role.type}
-                </p>
+                {activeEntry.stats && (
+                  <div className="flex gap-3">
+                    {activeEntry.stats.usersImpacted && (
+                      <motion.div
+                        className="text-center p-4 rounded-xl bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/10 min-w-[80px]"
+                        whileHover={{ y: -2 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
+                        <Users className="w-5 h-5 text-[var(--cyber-blue)] mx-auto mb-1.5" />
+                        <div className="text-sm font-bold text-white">
+                          {activeEntry.stats.usersImpacted}
+                        </div>
+                        <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">
+                          Users
+                        </div>
+                      </motion.div>
+                    )}
+                    {activeEntry.stats.performanceImprovement && (
+                      <motion.div
+                        className="text-center p-4 rounded-xl bg-[var(--cyber-purple)]/10 border border-[var(--cyber-purple)]/10 min-w-[80px]"
+                        whileHover={{ y: -2 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
+                        <Zap className="w-5 h-5 text-[var(--cyber-purple)] mx-auto mb-1.5" />
+                        <div className="text-sm font-bold text-white">
+                          {activeEntry.stats.performanceImprovement}
+                        </div>
+                        <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">
+                          Impact
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                )}
               </div>
 
-              {activeEntry.stats && (
-                <div className="flex gap-3">
-                  {activeEntry.stats.usersImpacted && (
-                    <div className="text-center p-3 rounded-lg bg-[var(--cyber-blue)]/10">
-                      <Users className="w-5 h-5 text-[var(--cyber-blue)] mx-auto mb-1" />
-                      <div className="text-sm font-bold text-white">
-                        {activeEntry.stats.usersImpacted}
-                      </div>
-                    </div>
-                  )}
-                  {activeEntry.stats.performanceImprovement && (
-                    <div className="text-center p-3 rounded-lg bg-[var(--cyber-purple)]/10">
-                      <Zap className="w-5 h-5 text-[var(--cyber-purple)] mx-auto mb-1" />
-                      <div className="text-sm font-bold text-white">
-                        {activeEntry.stats.performanceImprovement}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Achievements */}
-            <div className="space-y-4 mb-8">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Key Achievements
-              </h3>
-              {activeEntry.achievements.map((achievement) => (
+              {/* Achievements */}
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-gradient-to-b from-[var(--cyber-blue)] to-[var(--cyber-purple)] rounded-full"></span>
+                  Key Achievements
+                </h3>
                 <motion.div
-                  key={achievement.id}
-                  className="flex items-start gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
-                  whileHover={{ x: 5 }}
+                  className="space-y-3"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  key={activeEntry.id + "-achievements"}
                 >
-                  <div className="p-2 rounded-lg bg-[var(--cyber-blue)]/20 mt-0.5">
-                    <CheckCircle2 className="w-4 h-4 text-[var(--cyber-blue)]" />
-                  </div>
-                  <div>
-                    <p className="text-gray-200">{achievement.text}</p>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {achievement.metrics && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-[var(--cyber-blue)]/20 text-[var(--cyber-blue)]">
-                          📊 {achievement.metrics}
-                        </span>
-                      )}
-                      {achievement.impact && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">
-                          💡 {achievement.impact}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  {activeEntry.achievements.map((achievement, idx) => (
+                    <motion.div
+                      key={achievement.id}
+                      variants={itemVariants}
+                      className="group flex items-start gap-3 p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.03] hover:border-white/[0.08] transition-all duration-200"
+                    >
+                      <div className="p-2 rounded-lg bg-[var(--cyber-blue)]/15 mt-0.5 group-hover:bg-[var(--cyber-blue)]/25 transition-colors duration-200">
+                        <CheckCircle2 className="w-4 h-4 text-[var(--cyber-blue)]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-gray-300 leading-relaxed text-[15px]">
+                          {achievement.text}
+                        </p>
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          {achievement.metrics && (
+                            <span className="text-xs px-2.5 py-1 rounded-full bg-[var(--cyber-blue)]/10 text-[var(--cyber-blue)] border border-[var(--cyber-blue)]/15">
+                              📊 {achievement.metrics}
+                            </span>
+                          )}
+                          {achievement.impact && (
+                            <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/15">
+                              💡 {achievement.impact}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </div>
-
-            {/* Technologies */}
-            <div>
-              <h3 className="text-xl font-bold text-white mb-4">
-                Technologies Used
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {activeEntry.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[var(--cyber-blue)]/10 to-[var(--cyber-purple)]/10 text-[var(--cyber-blue)] border border-[var(--cyber-blue)]/20 text-sm"
-                  >
-                    {tech}
-                  </span>
-                ))}
               </div>
-            </div>
-          </motion.div>
+
+              {/* Technologies */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-gradient-to-b from-[var(--cyber-purple)] to-[var(--cyber-blue)] rounded-full"></span>
+                  Technologies Used
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {activeEntry.technologies.map((tech, idx) => (
+                    <motion.span
+                      key={tech}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.04, duration: 0.25 }}
+                      whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                      className="px-3.5 py-1.5 rounded-full bg-white/[0.04] text-gray-300 border border-white/[0.08] text-sm font-medium hover:border-[var(--cyber-blue)]/30 hover:text-white transition-all duration-200 cursor-default"
+                    >
+                      {tech}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>

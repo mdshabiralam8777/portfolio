@@ -13,6 +13,24 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
 const values = [
   {
     icon: <Target className="w-6 h-6" />,
@@ -55,16 +73,25 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen py-24">
       {/* Header */}
-      <div className="container mx-auto px-4 mb-12">
+      <div className="container mx-auto px-4 mb-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text">
+          <motion.span
+            className="inline-block text-sm font-medium tracking-widest text-[var(--cyber-blue)] uppercase mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Get to Know Me
+          </motion.span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text tracking-tight">
             About Me
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             The person behind the code
           </p>
         </motion.div>
@@ -75,12 +102,21 @@ export default function AboutPage() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-panel p-6 md:p-8 mb-8"
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          className="glass-panel p-6 md:p-8 mb-10"
         >
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
             {/* Profile Image */}
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--cyber-blue)] via-[var(--cyber-purple)] to-[var(--cyber-green)] blur-lg opacity-50" />
+            <motion.div
+              className="relative"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--cyber-blue)] via-[var(--cyber-purple)] to-[var(--cyber-green)] blur-lg opacity-40" />
               <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/20">
                 <Image
                   src="/shabbir.jpg"
@@ -89,11 +125,11 @@ export default function AboutPage() {
                   className="object-cover"
                 />
               </div>
-            </div>
+            </motion.div>
 
             {/* Bio */}
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
                 Mohammed Shabir Alam
               </h2>
               <p className="text-[var(--cyber-blue)] font-medium mb-4">
@@ -119,66 +155,85 @@ export default function AboutPage() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
-          className="mb-8"
+          className="mb-10"
         >
-          <h2 className="text-2xl font-bold mb-6 text-white text-center">
+          <h2 className="text-2xl font-bold mb-6 text-white text-center flex items-center justify-center gap-2">
+            <span className="w-1 h-6 bg-gradient-to-b from-[var(--cyber-blue)] to-[var(--cyber-purple)] rounded-full"></span>
             What Drives Me
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <motion.div
+            className="grid md:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="glass-panel p-6 text-center"
+                variants={itemVariants}
+                className="glass-panel p-6 text-center group"
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <div
-                  className="w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: `${value.color}20` }}
+                  className="w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200"
+                  style={{
+                    backgroundColor: `${value.color}15`,
+                    border: `1px solid ${value.color}20`,
+                  }}
                 >
                   <span style={{ color: value.color }}>{value.icon}</span>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   {value.title}
                 </h3>
-                <p className="text-gray-400 text-sm">{value.description}</p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  {value.description}
+                </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Journey Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
           className="glass-panel p-6 md:p-8 mb-8"
         >
-          <h2 className="text-2xl font-bold mb-6 text-white text-center">
+          <h2 className="text-2xl font-bold mb-8 text-white text-center flex items-center justify-center gap-2">
+            <span className="w-1 h-6 bg-gradient-to-b from-[var(--cyber-purple)] to-[var(--cyber-blue)] rounded-full"></span>
             My Journey
           </h2>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+          <motion.div
+            className="flex flex-wrap justify-center gap-6 md:gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {timeline.map((item, index) => (
               <motion.div
                 key={item.year}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
+                variants={itemVariants}
+                className="text-center group"
+                whileHover={{ y: -3 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <div className="text-2xl font-bold cyber-text mb-1">
+                <div className="text-2xl font-bold cyber-text mb-2 group-hover:scale-105 transition-transform duration-200">
                   {item.year}
                 </div>
-                <p className="text-sm text-gray-400 max-w-[150px]">
+                <p className="text-sm text-gray-400 max-w-[160px] leading-relaxed">
                   {item.event}
                 </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
