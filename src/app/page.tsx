@@ -20,6 +20,24 @@ import { FloatingElements } from "@/components/effects/FloatingElements";
 import { StatsCounter } from "@/components/ui/StatsCounter";
 import { Testimonials } from "@/components/ui/Testimonials";
 
+// Animation variants for staggered effects
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
 export default function Home() {
   const stats = [
     { label: "Years Experience", value: 6, suffix: "+" },
@@ -61,24 +79,31 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94] as const,
+              }}
               className="text-center lg:text-left"
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={{
+                  delay: 0.2,
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94] as const,
+                }}
                 className="flex justify-center lg:justify-start mb-8"
               >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/30">
                   <Sparkles className="w-4 h-4 text-[var(--cyber-blue)]" />
-                  <span className="text-sm text-[var(--cyber-blue)]">
+                  <span className="text-sm font-medium text-[var(--cyber-blue)]">
                     Senior Frontend Developer
                   </span>
                 </div>
               </motion.div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
                 <span className="block text-white">Mohammed</span>
                 <span className="block cyber-text">Shabir Alam</span>
               </h1>
@@ -98,7 +123,7 @@ export default function Home() {
                 />
               </div>
 
-              <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Specializing in{" "}
                 <span className="font-semibold" style={{ color: "#ff0037ff" }}>
                   Angular
@@ -120,37 +145,39 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 mb-10 justify-center lg:justify-start">
                 <motion.a
                   href="/contact"
-                  className="group px-8 py-4 rounded-full gradient-blue-purple text-white font-semibold flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-[var(--cyber-blue)]/25 transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="group px-8 py-4 rounded-full gradient-blue-purple text-white font-semibold flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-[var(--cyber-blue)]/25 transition-all duration-300"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   Start a Project
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
                 </motion.a>
 
                 <motion.a
                   href="/experience"
-                  className="px-8 py-4 rounded-full border border-white/20 text-white font-semibold hover:bg-white/5 transition-colors flex items-center justify-center"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 rounded-full border border-white/20 text-white font-semibold hover:bg-white/5 hover:border-white/30 transition-all duration-300 flex items-center justify-center"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   View Experience
                 </motion.a>
               </div>
 
               {/* Social Links */}
-              <div className="flex items-center justify-center lg:justify-start gap-4">
+              <div className="flex items-center justify-center lg:justify-start gap-3">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[var(--cyber-blue)]/50 transition-all"
-                    whileHover={{ y: -5 }}
+                    className="p-3 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-[var(--cyber-blue)]/40 transition-all duration-200"
+                    whileHover={{ y: -3 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
+                    transition={{ delay: 0.5 + index * 0.08, duration: 0.4 }}
                     aria-label={social.label}
                   >
                     {social.icon}
@@ -163,7 +190,11 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.25, 0.46, 0.45, 0.94] as const,
+              }}
               className="relative hidden lg:block"
             >
               <div className="relative h-[500px]">
@@ -172,38 +203,70 @@ export default function Home() {
                   <div className="h-full flex flex-col justify-center">
                     {/* Tech stack floating icons */}
                     <div className="grid grid-cols-3 gap-6 mb-8">
-                      <div className="text-center">
+                      <motion.div
+                        className="text-center"
+                        whileHover={{ y: -4 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="w-16 h-16 mx-auto mb-3 rounded-xl bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/30 flex items-center justify-center">
                           <Code className="w-8 h-8 text-[var(--cyber-blue)]" />
                         </div>
                         <span className="text-sm text-gray-300">
                           React/Angular
                         </span>
-                      </div>
-                      <div className="text-center">
+                      </motion.div>
+                      <motion.div
+                        className="text-center"
+                        whileHover={{ y: -4 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="w-16 h-16 mx-auto mb-3 rounded-xl bg-[var(--cyber-purple)]/10 border border-[var(--cyber-purple)]/30 flex items-center justify-center">
                           <Shield className="w-8 h-8 text-[var(--cyber-purple)]" />
                         </div>
                         <span className="text-sm text-gray-300">
                           Fintech Security
                         </span>
-                      </div>
-                      <div className="text-center">
+                      </motion.div>
+                      <motion.div
+                        className="text-center"
+                        whileHover={{ y: -4 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="w-16 h-16 mx-auto mb-3 rounded-xl bg-[var(--cyber-green)]/10 border border-[var(--cyber-green)]/30 flex items-center justify-center">
                           <Zap className="w-8 h-8 text-[var(--cyber-green)]" />
                         </div>
                         <span className="text-sm text-gray-300">
                           Performance
                         </span>
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Current Role */}
                     <div className="text-center mb-8">
-                      <h3 className="text-xl font-bold mb-3 text-gray-300">
+                      <h3 className="text-lg font-medium mb-3 text-gray-400">
                         Currently at
                       </h3>
-                      <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-red-500/10 border border-red-500/20">
+                      <motion.div
+                        className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[var(--cyber-blue)/100]"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center">
                           <Image
                             src="/emirates_nbd_logo.jpeg"
@@ -219,27 +282,43 @@ export default function Home() {
                         <span className="text-sm text-gray-400">
                           Dubai, UAE
                         </span>
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Quick Stats */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 rounded-xl bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/20">
+                      <motion.div
+                        className="text-center p-4 rounded-xl bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/20"
+                        whileHover={{ y: -2 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="text-3xl font-bold text-[var(--cyber-blue)]">
                           5M+
                         </div>
-                        <div className="text-sm text-gray-400">
+                        <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">
                           Users Served
                         </div>
-                      </div>
-                      <div className="text-center p-4 rounded-xl bg-[var(--cyber-purple)]/10 border border-[var(--cyber-purple)]/20">
+                      </motion.div>
+                      <motion.div
+                        className="text-center p-4 rounded-xl bg-[var(--cyber-purple)]/10 border border-[var(--cyber-purple)]/20"
+                        whileHover={{ y: -2 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                      >
                         <div className="text-3xl font-bold text-[var(--cyber-purple)]">
                           800+
                         </div>
-                        <div className="text-sm text-gray-400">
+                        <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">
                           API Calls/Day
                         </div>
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
@@ -253,18 +332,28 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{
+              duration: 0.6,
+              ease: [0.25, 0.46, 0.45, 0.94] as const,
+            }}
             viewport={{ once: true }}
             className="glass-panel p-8 md:p-12"
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
-                <div key={stat.label} className="text-center">
+                <motion.div
+                  key={stat.label}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  viewport={{ once: true }}
+                >
                   <StatsCounter
                     to={stat.value}
                     duration={2}
@@ -275,7 +364,7 @@ export default function Home() {
                   <div className="text-gray-400 text-sm md:text-base">
                     {stat.label}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -283,7 +372,7 @@ export default function Home() {
       </section>
 
       {/* Quick Links Section */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -291,72 +380,103 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 cyber-text">
-              Explore My Work
-            </h2>
+            <div className="text-center mb-14">
+              <motion.span
+                className="inline-block text-sm font-medium tracking-widest text-[var(--cyber-blue)] uppercase mb-4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                Portfolio
+              </motion.span>
+              <h2 className="text-3xl md:text-4xl font-bold cyber-text tracking-tight">
+                Explore My Work
+              </h2>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <motion.div
+              className="grid md:grid-cols-3 gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
               <Link href="/experience">
                 <motion.div
+                  variants={itemVariants}
                   className="glass-panel p-8 h-full group cursor-pointer"
-                  whileHover={{ y: -10 }}
+                  whileHover={{ y: -8 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Briefcase className="w-12 h-12 text-[var(--cyber-blue)] mb-6" />
-                  <h3 className="text-2xl font-bold mb-3 text-white">
+                  <div className="p-3 rounded-xl bg-[var(--cyber-blue)]/10 border border-[var(--cyber-blue)]/15 w-fit mb-6">
+                    <Briefcase className="w-8 h-8 text-[var(--cyber-blue)]" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
                     Experience
                   </h3>
-                  <p className="text-gray-400 mb-4">
+                  <p className="text-gray-400 mb-4 leading-relaxed">
                     Journey through Emirates NBD, Verizon, and KIA Motors with
                     detailed achievements and metrics.
                   </p>
-                  <div className="flex items-center text-[var(--cyber-blue)] group-hover:gap-2 transition-all">
-                    <span>View Timeline</span>
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all" />
+                  <div className="flex items-center text-[var(--cyber-blue)] group-hover:gap-2 transition-all duration-200">
+                    <span className="font-medium">View Timeline</span>
+                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
                   </div>
                 </motion.div>
               </Link>
 
               <Link href="/projects">
                 <motion.div
+                  variants={itemVariants}
                   className="glass-panel p-8 h-full group cursor-pointer"
-                  whileHover={{ y: -10 }}
+                  whileHover={{ y: -8 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Code className="w-12 h-12 text-[var(--cyber-purple)] mb-6" />
-                  <h3 className="text-2xl font-bold mb-3 text-white">
+                  <div className="p-3 rounded-xl bg-[var(--cyber-purple)]/10 border border-[var(--cyber-purple)]/15 w-fit mb-6">
+                    <Code className="w-8 h-8 text-[var(--cyber-purple)]" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
                     Projects
                   </h3>
-                  <p className="text-gray-400 mb-4">
+                  <p className="text-gray-400 mb-4 leading-relaxed">
                     Explore DevInsight, Strings Helmet Point, and other
                     innovative projects with live demos.
                   </p>
-                  <div className="flex items-center text-[var(--cyber-purple)] group-hover:gap-2 transition-all">
-                    <span>View Projects</span>
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all" />
+                  <div className="flex items-center text-[var(--cyber-purple)] group-hover:gap-2 transition-all duration-200">
+                    <span className="font-medium">View Projects</span>
+                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
                   </div>
                 </motion.div>
               </Link>
 
               <Link href="/skills">
                 <motion.div
+                  variants={itemVariants}
                   className="glass-panel p-8 h-full group cursor-pointer"
-                  whileHover={{ y: -10 }}
+                  whileHover={{ y: -8 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Sparkles className="w-12 h-12 text-[var(--cyber-green)] mb-6" />
-                  <h3 className="text-2xl font-bold mb-3 text-white">Skills</h3>
-                  <p className="text-gray-400 mb-4">
+                  <div className="p-3 rounded-xl bg-[var(--cyber-green)]/10 border border-[var(--cyber-green)]/15 w-fit mb-6">
+                    <Sparkles className="w-8 h-8 text-[var(--cyber-green)]" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
+                    Skills
+                  </h3>
+                  <p className="text-gray-400 mb-4 leading-relaxed">
                     Interactive visualization of technical skills, frameworks,
                     and tools expertise.
                   </p>
-                  <div className="flex items-center text-[var(--cyber-green)] group-hover:gap-2 transition-all">
-                    <span>View Skills</span>
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all" />
+                  <div className="flex items-center text-[var(--cyber-green)] group-hover:gap-2 transition-all duration-200">
+                    <span className="font-medium">View Skills</span>
+                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
                   </div>
                 </motion.div>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>

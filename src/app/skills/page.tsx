@@ -3,6 +3,24 @@
 import { motion } from "framer-motion";
 import { GraduationCap } from "lucide-react";
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
 const skillCategories = [
   {
     id: "frontend",
@@ -113,16 +131,25 @@ export default function SkillsPage() {
   return (
     <div className="min-h-screen py-24">
       {/* Header */}
-      <div className="container mx-auto px-4 mb-12">
+      <div className="container mx-auto px-4 mb-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text">
+          <motion.span
+            className="inline-block text-sm font-medium tracking-widest text-[var(--cyber-blue)] uppercase mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Technical Expertise
+          </motion.span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text tracking-tight">
             Skills & Expertise
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             A comprehensive toolkit built over 6+ years of professional
             development in fintech and telecom industries
           </p>
@@ -131,24 +158,35 @@ export default function SkillsPage() {
 
       {/* All Skills Grid - All categories visible at once */}
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {skillCategories.map((category, catIndex) => (
             <motion.div
               key={category.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: catIndex * 0.1 }}
-              viewport={{ once: true }}
+              variants={itemVariants}
               className="glass-panel p-6"
+              whileHover={{ y: -3 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               {/* Category Header */}
               <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="w-3 h-3 rounded-full animate-pulse"
-                  style={{ backgroundColor: category.color }}
-                />
+                <span className="relative flex h-2.5 w-2.5">
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ backgroundColor: category.color }}
+                  ></span>
+                  <span
+                    className="relative inline-flex rounded-full h-2.5 w-2.5"
+                    style={{ backgroundColor: category.color }}
+                  ></span>
+                </span>
                 <h2
-                  className="text-xl font-bold"
+                  className="text-lg font-semibold"
                   style={{ color: category.color }}
                 >
                   {category.name}
@@ -169,17 +207,19 @@ export default function SkillsPage() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Certifications */}
-      <div className="container mx-auto px-4 mt-16">
+      <div className="container mx-auto px-4 mt-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
         >
-          <h2 className="text-2xl font-bold mb-8 text-white text-center">
+          <h2 className="text-2xl font-semibold mb-8 text-white text-center flex items-center justify-center gap-3">
+            <span className="w-1 h-6 bg-gradient-to-b from-[var(--cyber-blue)] to-[var(--cyber-purple)] rounded-full"></span>
             Certifications & Achievements
           </h2>
 

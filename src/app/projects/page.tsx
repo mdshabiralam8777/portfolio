@@ -12,6 +12,24 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
+};
+
 const projects = [
   {
     id: "devinsight",
@@ -127,16 +145,25 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen py-24">
       {/* Header */}
-      <div className="container mx-auto px-4 mb-12">
+      <div className="container mx-auto px-4 mb-16">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text">
+          <motion.span
+            className="inline-block text-sm font-medium tracking-widest text-[var(--cyber-blue)] uppercase mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Portfolio
+          </motion.span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 cyber-text tracking-tight">
             Projects
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Innovative solutions built with modern technologies, from internal
             developer tools to production e-commerce platforms
           </p>
@@ -148,22 +175,29 @@ export default function ProjectsPage() {
         <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-2xl font-bold mb-8 text-white flex items-center gap-2"
+          transition={{ delay: 0.3 }}
+          className="text-2xl font-semibold mb-8 text-white flex items-center gap-3"
         >
-          <Star className="w-6 h-6 text-[var(--cyber-blue)]" />
+          <span className="w-1 h-6 bg-gradient-to-b from-[var(--cyber-blue)] to-[var(--cyber-purple)] rounded-full"></span>
+          <Star className="w-5 h-5 text-[var(--cyber-blue)]" />
           Featured Projects
         </motion.h2>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <motion.div
+          className="grid lg:grid-cols-2 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {projects
             .filter((p) => p.featured)
             .map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                variants={itemVariants}
                 className="glass-panel p-6 md:p-8 group"
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
@@ -268,7 +302,7 @@ export default function ProjectsPage() {
                 </div>
               </motion.div>
             ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Other Projects */}
@@ -277,13 +311,20 @@ export default function ProjectsPage() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-2xl font-bold mb-8 text-white flex items-center gap-2"
+          className="text-2xl font-semibold mb-8 text-white flex items-center gap-3"
         >
-          <Globe className="w-6 h-6 text-[var(--cyber-green)]" />
+          <span className="w-1 h-6 bg-gradient-to-b from-[var(--cyber-green)] to-[var(--cyber-blue)] rounded-full"></span>
+          <Globe className="w-5 h-5 text-[var(--cyber-green)]" />
           Other Projects
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <motion.div
+          className="grid md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {projects
             .filter((p) => !p.featured)
             .map((project, index) => (
@@ -338,7 +379,7 @@ export default function ProjectsPage() {
                 </div>
               </motion.div>
             ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
